@@ -1,0 +1,62 @@
+{
+  "pages":[
+    "pages/index/index",
+    "pages/status/status",
+    "pages/record/record",
+    "pages/user/user",
+
+    "pages/config/config",
+    "pages/scan/scan",
+    "pages/statement/statement",
+    "pages/msg/msg_fail",
+    "pages/msg/msg_success"
+  ],
+  "window": {
+    "navigationBarBackgroundColor": "#40b9fe",
+    "navigationBarTextStyle": "white",
+    "navigationBarTitleText": "电针治疗仪",
+    "backgroundColor": "#f8f8f8",
+    "backgroundTextStyle": "dark",
+    "enablePullDownRefresh": false
+  },
+  "tabBar": {
+    "list": [
+      {
+        "pagePath": "pages/index/index",
+        "text": "首页",
+        "iconPath": "src/images/index.png",
+        "selectedIconPath": "src/images/index.png"
+      },
+      {
+        "pagePath": "pages/status/status",
+        "text": "状态",
+        "iconPath": "src/images/working.png",
+        "selectedIconPath": "src/images/working.png"
+      },
+      {
+        "pagePath": "pages/record/record",
+        "text": "记录",
+        "iconPath": "src/images/record.png",
+        "selectedIconPath": "src/images/record.png"
+      },
+      {
+        "pagePath": "pages/user/user",
+        "text": "我的",
+        "iconPath": "src/images/user.png",
+        "selectedIconPath": "src/images/user.png"
+      },
+      {
+        "pagePath": "pages/statement/statement",
+        "text": "测试",
+        "iconPath": "src/images/user.png",
+        "selectedIconPath": "src/images/user.png"
+      }
+    ],
+    "selectedColor": "#40b9fe"
+  },
+  "networkTimeout": {
+    "request": 20000,
+    "connectSocket": 20000
+  },
+  "debug": true
+}

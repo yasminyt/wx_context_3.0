@@ -1,0 +1,48 @@
+<view class="container">
+  <view class="page-head">
+    <view class="icon-small-wrp" style='text-align: right; padding-top: 3px;'>
+      <icon bindtap='toStatement' class="icon-small" type="info_circle" size="20"></icon>
+    </view>
+    <view class="page-head-title">
+      <text>当前配置参数的设备</text>
+    </view>
+    <view class="page-head-title" wx:if="{{ device }}">{{ device }}</view>
+  </view>
+
+  <view class="page-body">
+    <form catchsubmit="formSubmit" catchreset="formReset">
+      <view class="page-section page-section-gap">
+        <view class="page-section-title">选择模式</view>
+        <radio-group name="mode">
+          <label>
+            <radio value="0" checked/>连续波</label>
+          <label>
+            <radio value="1" />断续波</label>
+          <label>
+            <radio value="2" />疏密波</label>
+        </radio-group>
+      </view>
+
+      <view class="page-section page-section-gap">
+        <view class="page-section-title">选择强度(%)</view>
+        <slider value="50" min="0" max="100" name="intensity" show-value></slider>
+      </view>
+
+      <view class="page-section page-section-gap">
+        <view class="page-section-title">选择频率(Hz)</view>
+        <slider value="50" min="1" max="100" name="freq" show-value></slider>
+      </view>
+
+      <view class="page-section page-section-gap">
+        <view class="page-section-title">选择时间(min)</view>
+        <slider value="15" min="1" max="30" name="time" show-value></slider>
+      </view>
+
+      <view class="btn-area">
+        <button type="primary" formType="submit" bindtap="submit">提 交</button>
+        <button formType="reset">重 置</button>
+      </view>
+    </form>
+  </view>
+
+</view>

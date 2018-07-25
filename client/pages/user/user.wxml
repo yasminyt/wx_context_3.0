@@ -1,0 +1,63 @@
+<view class='page'>
+  <view class='page_hd'>
+    <view class="userinfo">
+        <image
+            class="userinfo-avatar"
+            src="{{logged ? userInfo.avatarUrl : './user-unlogin.png'}}"
+            background-size="cover"
+        ></image>
+        <view>
+            <button class="userinfo-nickname" wx:if="{{!logged}}" open-type="getUserInfo" bindgetuserinfo="bindGetUserInfo">点击登录</button>
+            <text class="userinfo-nickname" wx:else>{{userInfo.nickName}}</text>
+        </view>
+    </view>
+  </view>
+
+  <view class='page__bd'>
+    <view class='weui-cells__title'>我的数据</view>
+    <view class='weui-cells weui-cells_after-title'>
+      <view class='weui-cell'>
+        <view class='weui-cell__bd'>治疗天数</view>
+        <view class='weui-cell__ft'>{{ total_days }} 天</view>
+      </view>
+
+      <view class='weui-cell'>
+        <view class='weui-cell__bd'>治疗时长</view>
+        <view class='weui-cell__ft'>{{ total_times }}</view>
+      </view>
+
+      <navigator url='' class='weui-cell weui-cell_access' hover-class='weui-cell_active'>
+        <view class='weui-cell__bd'>上次治疗时间</view>
+        <view class='weui-cell__ft weui-cell__ft_in-access'></view>
+      </navigator>
+
+      <navigator url='' class='weui-cell weui-cell_access' hover-class='weui-cell_active'>
+        <view class='weui-cell__bd'>上次治疗配置</view>
+        <view class='weui-cell__ft weui-cell__ft_in-access'></view>
+      </navigator>
+    </view>
+  </view>
+
+  <view class='weui-cells__title'>授权管理</view>
+  <view class='weui-cells weui-cells_after-title'>
+    <navigator url='' class='weui-cell weui-cell_access' hover-class='weui-cell_active'>
+      <view class='weui-cell__bd'>授权日志</view>
+      <view class='weui-cell__ft weui-cell__ft_in-access'></view>
+    </navigator>
+
+    <navigator url='' class='weui-cell weui-cell_access' hover-class='weui-cell_active'>
+      <view class='weui-cell__bd'>取消授权</view>
+      <view class='weui-cell__ft weui-cell__ft_in-access'></view>
+    </navigator>
+
+    <navigator url='' class='weui-cell weui-cell_access' hover-class='weui-cell_active'>
+      <view class='weui-cell__bd'>授权设备</view>
+      <view class='weui-cell__ft weui-cell__ft_in-access'></view>
+    </navigator>
+
+    <navigator url='' class='weui-cell weui-cell_access' hover-class='weui-cell_active'>
+      <view class='weui-cell__bd'>解除绑定</view>
+      <view class='weui-cell__ft weui-cell__ft_in-access'></view>
+    </navigator>
+  </view>
+</view>

@@ -1,0 +1,94 @@
+<view class="page">
+  <view class="page__bd">
+    <view class="weui-tab">
+      <view class="weui-navbar">
+        <block wx:for="{{tabs}}" wx:key="*this">
+          <view id="{{index}}" class="weui-navbar__item {{activeIndex == index ? 'weui-bar__item_on' : ''}}" bindtap="tabClick" style="{{(!isFirstAdd) && (activeIndex == 0) ? 'background-color: white' : ''}}">
+            <view class="weui-navbar__title">{{item}}</view>
+          </view>
+        </block>
+        <view class="weui-navbar__slider" style="left: {{sliderLeft}}px; transform: translateX({{sliderOffset}}px); -webkit-transform: translateX({{sliderOffset}}px);"></view>
+      </view>
+    </view>
+
+    <view class="weui-tab__panel">
+      <!-- tab1 content -->
+      <view class="weui-tab__content" hidden="{{activeIndex != 0}}">
+        <view wx:if="{{isFirstAdd && (connected_device.length === 0) && (available_device.length === 0)}}" class="container null_device">
+          <icon class="container_top" type="info" size="100" />
+          <text class="container_text">设备列表还是空的</text>
+          <button bindtap='addDevice' class="weui-btn" type='primary' plain="true" style='margin: 60rpx; font-size: 14px;'>去添加</button>
+        </view>
+
+        <block wx:if="{{!isFirstAdd}}">
+          <view wx:if="{{(connected_device.length === 0) && (available_device.length === 0)}}" class='container null_available_device'>
+            <image class="null_device_image" src="/src/images/tips.png"></image>
+            <text>暂无可连接设备</text>
+          </view>
+
+          <block wx:else>
+            <view class='page__bd page__bd_spacing'>
+              <view class="weui-cells__title">当前已配对设备：{{ connected_device.length }}</view>
+              <view class="weui-cells weui-cells_after-title">
+                <block wx:for='{{ connected_device }}' wx:key="{{item.deviceId}}">
+                  <navigator url='{{item.url}}' class="weui-cell weui-cell_access">
+                    <view class="weui-cell__bd">{{ item.name }}</view>
+                    <view class="weui-cell__ft weui-cell__ft_in-access">配置参数</view>
+                  </navigator>
+                </block>
+              </view>
+            </view>
+
+            <view class='page__bd page__bd_spacing'>
+              <view class="weui-cells__title">可用设备：{{ available_device.length }}</view>
+              <view class="weui-cells weui-cells_after-title">
+                <radio-group bindchange="ConnRadioChange">
+                  <label class="weui-cell weui-check__label" wx:for="{{available_device}}" wx:key="{{item.deviceId}}">
+                    <radio class="weui-check" value="{{item.deviceId}}" checked="{{item.checked}}" />
+                    <view class="weui-cell__bd">{{item.deviceId}}--------{{item.name}}</view>
+                    <view class="weui-cell__ft weui-cell__ft_in-radio" wx:if="{{item.checked}}">
+                      <icon class="weui-icon-radio" type="success_no_circle" size="16"></icon>
+                    </view>
+                  </label>
+                </radio-group>
+              </view>
+            </view>
+          </block>
+
+          <view class="scan_container">
+            <image class="scan_image" bindtap="addDevice" src="/src/images/scan.png"></image>
+            <text>扫描设备</text>
+          </view>
+        </block>
+      </view>
+
+      <!-- tab2 content -->
+      <view class="weui-tab__content" hidden="{{activeIndex != 1}}">
+        <view wx:if="{{connected_device.length === 0}}" style='text-align: center; padding: 60px 0;'>
+          <image src='/src/images/nodevice.png' style='width: 200px; height: 200px;'></image>
+        </view>
+
+        <block wx:else>
+          <view class='page__hd page__bd_spacing'>
+            <view class="weui-cells__title">已配对设备：{{ connected_device.length }}</view>
+            <view class="weui-cells weui-cells_after-title">
+              <radio-group bindchange="radioChange">
+                <label class="weui-cell weui-check__label" wx:for="{{connected_device}}" wx:key="{{item.deviceId}}">
+                  <radio class="weui-check" value="{{item.deviceId}}" checked="{{item.checked}}" />
+                  <view class="weui-cell__bd">{{item.deviceId}}--------{{item.name}}</view>
+                  <view class="weui-cell__ft weui-cell__ft_in-radio" wx:if="{{item.checked}}">
+                    <icon class="weui-icon-radio" type="success_no_circle" size="16"></icon>
+                  </view>
+                </label>
+              </radio-group>
+            </view>
+          </view>
+
+          <view class='page__bd page__bd_spacing'>
+            <button bindtap='uninstall' class="weui-btn" type="warn">卸载网络</button>
+          </view>
+        </block>
+      </view>
+    </view>
+  </view>
+</view>

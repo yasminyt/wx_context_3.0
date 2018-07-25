@@ -1,0 +1,56 @@
+<import src="../../template/calendar/index.wxml" />
+
+<view class="calendar-wrap">
+  <template is="calendar" data="{{...calendar}}" />
+</view>
+
+<view class="page">
+  <view class="page__hd">
+    <view class="page__title">治疗记录
+      <text wx:if="{{recordList.length}}">{{recordList.length}}</text>
+    </view>
+    <view class="page__desc" wx:if="{{!recordList.length}}" style='text-align: center;'>
+      <image src='/src/images/norecord.png' style='width: 197px; height: 180px;'></image>
+    </view>
+  </view>
+  <view class="page__bd" wx:if="{{recordList.length}}">
+    <block wx:for="{{recordList}}" wx:key="{{item.config_id}}">
+      <view class="weui-form-preview">
+        <view class="weui-form-preview__hd">
+          <view class="weui-form-preview__label">设备</view>
+          <view class="weui-form-preview__value_in-hd">{{item.mac_id}}----------{{item.mac_name}}设备</view>
+        </view>
+        <view class="weui-form-preview__bd">
+          <view class="weui-form-preview__item">
+            <view class="weui-form-preview__label">模式</view>
+            <block wx:if="{{item.mode === 0}}">
+              <view class="weui-form-preview__value">连续波</view>
+            </block>
+            <block wx:if="{{item.mode === 1}}">
+              <view class="weui-form-preview__value">断续波</view>
+            </block>
+            <block wx:if="{{item.mode === 2}}">
+              <view class="weui-form-preview__value">疏密波</view>
+            </block>
+          </view>
+          <view class="weui-form-preview__item">
+            <view class="weui-form-preview__label">强度</view>
+            <view class="weui-form-preview__value">{{item.intensity}}%</view>
+          </view>
+          <view class="weui-form-preview__item">
+            <view class="weui-form-preview__label">频率</view>
+            <view class="weui-form-preview__value">{{item.freq}}Hz</view>
+          </view>
+          <view class="weui-form-preview__item">
+            <view class="weui-form-preview__label">设备工作时长</view>
+            <view class="weui-form-preview__value">{{item.set_time}}min</view>
+          </view>
+          <view class="weui-form-preview__item">
+            <view class="weui-form-preview__label">设置参数时间</view>
+            <view class="weui-form-preview__value">{{item.create_time}}</view>
+          </view>
+        </view>
+      </view>
+    </block>
+  </view>
+</view>

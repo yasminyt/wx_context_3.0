@@ -1,0 +1,21 @@
+@import '../../template/calendar/index.wxss';
+
+.calendar-wrap {
+	padding: 0 10rpx;
+}
+
+.page__hd {
+  padding: 10px
+}
+
+.page__title {
+  font-size: 16px
+}
+
+.weui-form-preview__value_in-hd {
+  font-size:15px;
+}
+
+.weui-form-preview__hd {
+  padding: 1px 15px;
+}

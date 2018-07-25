@@ -1,0 +1,77 @@
+/**index.wxss**/
+Page{
+  background-color:#EFEFEF;
+}
+
+.weui-cells__title {
+  margin-top: 0;
+}
+
+.container {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  box-sizing: border-box;
+}
+
+.null_device {
+  padding-top: 100rpx;
+}
+
+.container_top {
+  margin-top: 40rpx;
+  color: #aaa;
+}
+
+.container_text {
+  margin-top: 40rpx;
+  color: #2A88DF;
+}
+
+.null_available_device {
+  background-color: white;
+  padding: 250rpx 0;
+  color: #aaa;
+}
+
+.null_device_image{
+  width: 490rpx;
+  height: 224rpx;
+  padding-bottom: 40rpx;
+}
+
+.scan_container{
+  padding-top: 15rpx;
+  padding-bottom: 15rpx;
+  width: 100%;
+  background-color: #F4F4F4;
+  color: #aaa;
+  font-size: 26rpx;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  box-sizing: border-box;
+  position: absolute;
+  bottom: 0rpx;
+  left: 0rpx;
+}
+.scan_image{
+  width: 96rpx;
+  height: 96rpx;
+  margin-bottom: 20rpx;
+}
+.scan_image:active{
+  background-color: #f0f0f0;
+  border-radius: 50%;  
+}
+
+.page__bd_spacing {
+  padding: 20px 0;
+}
+
+.page__bd {
+  padding-bottom: 10px;
+}

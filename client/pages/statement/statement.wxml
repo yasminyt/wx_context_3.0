@@ -1,0 +1,14 @@
+<view class="container">
+  <view class="page-body">
+    <view class="page-head">
+      <view class="page-head-title">电针治疗仪参数配置说明</view>
+      <view class="page-head-line"></view>
+    </view>
+   <view class="page-section page-section-spacing">
+      <view class="text-box">
+        <text>{{requestResult}}</text>
+      </view>
+    </view>
+  </view>
+
+</view>

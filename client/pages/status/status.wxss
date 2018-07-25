@@ -1,0 +1,7 @@
+.page__hd {
+  padding: 0 10px 10px;
+}
+
+canvas {
+  width: 100%;
+}
