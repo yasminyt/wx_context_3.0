@@ -14,13 +14,14 @@
     <view class="weui-tab__panel">
       <!-- tab1 content -->
       <view class="weui-tab__content" hidden="{{activeIndex != 0}}">
-        <view wx:if="{{isFirstAdd && (connected_device.length === 0) && (available_device.length === 0)}}" class="container null_device">
+        <view wx:if="{{!isLogin}}" class="container null_device">
           <icon class="container_top" type="info" size="100" />
-          <text class="container_text">设备列表还是空的</text>
-          <button bindtap='addDevice' class="weui-btn" type='primary' plain="true" style='margin: 60rpx; font-size: 14px;'>去添加</button>
+          <text class="container_text">您还没有登录</text>
+          <text class="container_text">登录后可以看到更多内容噢😊</text>
+          <navigator url="../user/user" bindtap='toLogin' class="container_top container_navigator" style="font-size: 18px">去登录</navigator>
         </view>
 
-        <block wx:if="{{!isFirstAdd}}">
+        <block wx:else>
           <view wx:if="{{(connected_device.length === 0) && (available_device.length === 0)}}" class='container null_available_device'>
             <image class="null_device_image" src="/src/images/tips.png"></image>
             <text>暂无可连接设备</text>
@@ -45,7 +46,7 @@
                 <radio-group bindchange="ConnRadioChange">
                   <label class="weui-cell weui-check__label" wx:for="{{available_device}}" wx:key="{{item.deviceId}}">
                     <radio class="weui-check" value="{{item.deviceId}}" checked="{{item.checked}}" />
-                    <view class="weui-cell__bd">{{item.deviceId}}--------{{item.name}}</view>
+                    <view class="weui-cell__bd">{{item.deviceId}} ---------- {{item.name}}</view>
                     <view class="weui-cell__ft weui-cell__ft_in-radio" wx:if="{{item.checked}}">
                       <icon class="weui-icon-radio" type="success_no_circle" size="16"></icon>
                     </view>

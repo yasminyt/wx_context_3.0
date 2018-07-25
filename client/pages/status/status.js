@@ -27,7 +27,6 @@ Page({
     obj.x = x_base;
     obj.y = y_base;
     if (arrPoint.length > (width/step)) {
-      console.log(arrPoint);
       arrPoint.splice(0, 1);
     }
       

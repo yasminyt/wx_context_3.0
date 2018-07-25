@@ -5,7 +5,7 @@
     </view>
     <view class="weui-msg__text-area">
       <view class="weui-msg__title">操作成功</view>
-      <view class="weui-msg__desc">您已成功绑定该电针治疗仪设备
+      <view class="weui-msg__desc">{{content}}
       </view>
     </view>
     <view class="weui-msg__opr-area">

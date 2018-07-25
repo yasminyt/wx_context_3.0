@@ -14,7 +14,8 @@ module.exports = {
   },
 
   update: async ctx => {
-    const res = await mysql('device').update({ name: 'demo3' }).where({ name: 'demo2' })
+    const { table, values, where } = ctx.request.body
+    const res = await mysql(table).update(values).where(where)
     ctx.state.data = res
   },
 

@@ -16,6 +16,15 @@ Page{
   box-sizing: border-box;
 }
 
+.container_navigator{
+  padding: 20rpx;
+  border:1rpx solid #D7D7D7;
+  background-color: #F6F6F6;
+  opacity:0.8;
+}
+
+
+
 .null_device {
   padding-top: 100rpx;
 }

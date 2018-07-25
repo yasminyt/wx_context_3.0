@@ -5,9 +5,7 @@
     </view>
     <view class="weui-msg__text-area">
       <view class="weui-msg__title">操作失败</view>
-      <view class="weui-msg__desc">
-      您没有权限添加该设备
-      </view>
+      <view class="weui-msg__desc">{{content}}</view>
     </view>
     <view class="weui-msg__opr-area">
       <view class="weui-btn-area">
