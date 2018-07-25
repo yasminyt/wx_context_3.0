@@ -89,11 +89,12 @@ Page({
    * 
    */
   addDevice: function () {
-    this.setData({ isFirstAdd: false });
-
-    wx.navigateTo({
-      url: '../msg/msg_success',
+    this.setData({ 
+      isFirstAdd: false,
+      connected_device: [{deviceId: '34:45:23:12', name: 'demooo', url: "../config/config?deviceId=34:45:23:12&name=demooo"}]
     })
+
+    
 
     //调用微信的扫码功能，以此添加设备
     /**

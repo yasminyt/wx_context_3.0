@@ -8,7 +8,7 @@ const formatTime = date => {
   const minute = date.getMinutes()
   const second = date.getSeconds()
 
-  return [year, month, day].map(formatNumber).join('-') + ' ' + [hour, minute, second].map(formatNumber).join(':')
+  return [year, month, day].map(formatNumber).join('/') + ' ' + [hour, minute, second].map(formatNumber).join(':')
 }
 
 const formatNumber = n => {
@@ -17,7 +17,7 @@ const formatNumber = n => {
 }
 
 const formatDay = (year, month, day) => {
-  return [year, month, day].map(formatNumber).join('-');
+  return [year, month, day].map(formatNumber).join('/');
 };
 
 const isLogin = () => {
@@ -58,7 +58,7 @@ var showModal = (title, content) => {
 
   wx.showModal({
     title,
-    content: JSON.stringify(content),
+    content: content,
     showCancel: false
   })
 }

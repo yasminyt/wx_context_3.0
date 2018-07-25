@@ -2,20 +2,14 @@ const { mysql } = require('../qcloud')
 
 module.exports = {
   create: async ctx => {
-    const device = {
-      mac_id: '11:22:33:44',
-      name: 'demo2',
-      product_time: '2017/08/24 12:30:40'
-    }
-
-    const res = await mysql('device').insert(device)
+    const { table, values } = ctx.request.body
+    const res = await mysql(table).insert(values)
     ctx.state.data = res
   },
 
   query: async ctx => {
-    const { table, params } = ctx.request.body   // params 按照 json 的格式
-    console.log(params)
-    const res = await mysql(table).where(params)
+    const { table, values } = ctx.request.body   // params 按照 json 的格式
+    const res = await mysql(table).where(values)
     ctx.state.data = res
   },
 

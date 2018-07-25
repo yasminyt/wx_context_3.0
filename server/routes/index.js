@@ -34,7 +34,7 @@ router.post('/message', controllers.message.post)
 
 // 处理数据库请求
 router.get('/configuration/:day', controllers.crud.query)
-router.get('/create', controllers.crud.create)
+router.post('/create', controllers.crud.create)
 router.post('/query', controllers.crud.query)
 
 module.exports = router

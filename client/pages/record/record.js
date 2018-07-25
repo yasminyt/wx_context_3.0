@@ -1,8 +1,7 @@
 import initCalendar, { getSelectedDay, jumpToToday } from '../../template/calendar/index';
 
-const qcloud = require('../../vendor/wafer2-client-sdk/index')
 const config = require('../../config')
-const util = require('../../utils/util.js')
+const util = require('../../utils/util')
 
 let day = util.formatTime(new Date()).split(' ')[0];    //当天的日期
 
@@ -20,14 +19,13 @@ Page({
       method: "POST",
       data: {
         table: 'configuration',
-        params: { open_id: openId, create_day: day}
+        values: {open_id: openId, create_day: day}
       },
       success (result) {
         result = result.data.data
         result.forEach(item => {
           item.create_time = util.formatTime(new Date(item.create_time))
         });
-        console.log(result)
         that.setData({
           recordList: result
         })
@@ -54,7 +52,7 @@ Page({
        */
       afterTapDay: (currentSelect, allSelectedDays) => {
         day = util.formatDay(currentSelect.year, currentSelect.month, currentSelect.day);   //用户选择日期后的日期
-        this.showList()
+        this.showList(open_id)
 
         console.log('当前点击的日期', currentSelect);
         allSelectedDays && console.log('选择的所有日期', allSelectedDays);

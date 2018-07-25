@@ -39,7 +39,7 @@
       </view>
 
       <view class="btn-area">
-        <button type="primary" formType="submit" bindtap="submit">提 交</button>
+        <button type="primary" formType="submit">提 交</button>
         <button formType="reset">重 置</button>
       </view>
     </form>
