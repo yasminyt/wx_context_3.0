@@ -102,7 +102,7 @@ Page({
   },
 
   // 扫描设备 按钮事件
-  addDevice: function () {
+  scanDevice: function () {
     this.setData({
       isFirstAdd: false,
       connected_device: [{ deviceId: '34:45:23:12', name: 'demooo', url: "../config/config?deviceId=34:45:23:12&name=demooo" }],

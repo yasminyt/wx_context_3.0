@@ -10,6 +10,9 @@
             <button class="userinfo-nickname" wx:if="{{!logged}}" open-type="getUserInfo" bindgetuserinfo="bindGetUserInfo">点击登录</button>
             <text class="userinfo-nickname" wx:else>{{userInfo.nickName}}</text>
         </view>
+        <view style="position:fixed; margin-left: 75%">
+          <image src="../../src/images/qrcode.png" style="width: 50px; height: 50px;"></image>
+        </view>
     </view>
   </view>
 

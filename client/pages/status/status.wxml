@@ -3,16 +3,16 @@
     <view class="page__hd">
       <view class="page__title" style='text-align:center'>当前配对设备</view>
     </view>
-    <block wx:for="{{workList}}" wx:key="{{item.deviceId}}">
+    <block wx:for="{{workList}}" wx:key="{{item.config_id}}">
       <view class="page__hd" style='padding-top: 0'>
-        <view class="page__desc">{{item.deviceId}} ----------- {{item.name}}</view>
-        <canvas canvas-id="{{item.deviceId}}" class="canvas"></canvas>
+        <view class="page__desc">{{item.mac_id}} ----------- {{item.mac_name}}</view>
+        <canvas canvas-id="{{item.mac_id}}" class="canvas" style='background-color: black'></canvas>
       </view>
       <view class="page__bd" style='padding-bottom:10px'>
         <view class="weui-form-preview">
           <view class="weui-form-preview__hd">
             <view class="weui-form-preview__label">工作状态</view>
-            <view class="weui-form-preview__value_in-hd">{{item.status}}</view>
+            <view class="weui-form-preview__value_in-hd">{{(item.status == "work") ? "工作中" : "待机中"}}</view>
           </view>
           <view class="weui-form-preview__bd">
             <view class="weui-form-preview__item">
@@ -37,7 +37,7 @@
             </view>
             <view class="weui-form-preview__item">
               <view class="weui-form-preview__label">设定时长</view>
-              <view class="weui-form-preview__value">{{item.setTime}}min</view>
+              <view class="weui-form-preview__value">{{item.set_time}}min</view>
             </view>
             <view class="weui-form-preview__item">
               <view class="weui-form-preview__label">剩余时长</view>
@@ -45,13 +45,19 @@
             </view>
           </view>
           <view class="weui-form-preview__ft">
+            <view class="weui-form-preview__btn weui-form-preview__btn_warning" hover-class="weui-form-preview__btn_active"
+              data-deviceId="{{item.config_id}}" data-status="{{item.status}}" data-downTime="{{item.downTime}}" bindtap="doAction">
+              {{(item.status == "work") ? "暂 停" : ((item.downTime == 0) ? "删除任务" : "重新启动") }}
+            </view>
+            <!--
             <block wx:if="{{!complete}}">
               <view data-deviceId='{{item.deviceId}}' bindtap='doAction' class="weui-form-preview__btn weui-form-preview__btn_warning" hover-class="weui-form-preview__btn_active">{{item.action}}</view>
             </block>
             <block wx:else>
               <view class="weui-form-preview__btn weui-form-preview__btn_default" disabled="true">暂停</view>
             </block>
-            <view data-deviceId='{{item.deviceId}}' bindtap="reset" class="weui-form-preview__btn weui-form-preview__btn_primary" hover-class="weui-form-preview__btn_active">重新设置</view>
+            -->
+            <view data-deviceId='{{item.config_id}}' bindtap="reset" class="weui-form-preview__btn weui-form-preview__btn_primary" hover-class="weui-form-preview__btn_active">重新设置</view>
           </view>
         </view>
       </view>
@@ -61,7 +67,7 @@
   <block wx:else>
     <view class="page__hd" style='padding: 80px 0'>
       <view class="page__title" style='text-align: center'>
-        <image src='../images/notask.png' style='width: 333px; height: 200px;'></image>
+        <image src='../../src/images/notask.png' style='width: 333px; height: 200px;'></image>
         <view style='text-align: center; color: #bdbdbd; padding-top: 15px'>
           <text>暂无设备工作</text>
         </view>

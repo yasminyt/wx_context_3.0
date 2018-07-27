@@ -7,6 +7,7 @@
 
     "pages/config/config",
     "pages/scan/scan",
+    "pages/qrcode/qrcode",
     "pages/statement/statement",
     "pages/msg/msg_fail",
     "pages/msg/msg_success"
@@ -46,7 +47,7 @@
         "selectedIconPath": "src/images/user.png"
       },
       {
-        "pagePath": "pages/statement/statement",
+        "pagePath": "pages/qrcode/qrcode",
         "text": "测试",
         "iconPath": "src/images/user.png",
         "selectedIconPath": "src/images/user.png"

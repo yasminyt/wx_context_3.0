@@ -16,26 +16,28 @@ Page({
     total_times: '201小时71分'
   },
   onLoad: function () {
-  },
-
-  onShow: function () {
     const session = qcloud.Session.get();
     if (session) {
+      util.showBusy('更新中')
       // 第二次登录
       // 或者本地已经有登录态
       // 使用本函数更新登录态
       qcloud.loginWithCode({
         success: res => {
           this.setData({ userInfo: res, logged: true })
+          util.showSuccess('登录状态已更新')
         },
         fail: err => {
           console.error(err)
         }
       })
-      this.setData({ userInfo: JSON.parse(app.globalData.userInfo), logged: true })
     } else {
       this.setData({ userInfo: {}, logged: false })
     }
+  },
+
+  onShow: function () {
+    
   },
 
   // 用户登录

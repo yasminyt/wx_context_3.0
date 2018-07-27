@@ -36,5 +36,6 @@ router.post('/message', controllers.message.post)
 router.get('/configuration/:day', controllers.crud.query)
 router.post('/create', controllers.crud.create)
 router.post('/query', controllers.crud.query)
+router.post('/whereInquery', controllers.crud.whereIn_query)
 
 module.exports = router

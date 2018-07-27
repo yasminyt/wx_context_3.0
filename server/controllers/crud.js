@@ -13,6 +13,13 @@ module.exports = {
     ctx.state.data = res
   },
 
+  // whereIn 子句的查询语句
+  whereIn_query: async ctx => {
+    const { table, value, array } = ctx.request.body
+    const res = await mysql(table).whereIn(value, array)
+    ctx.state.data = res
+  },
+
   update: async ctx => {
     const { table, values, where } = ctx.request.body
     const res = await mysql(table).update(values).where(where)

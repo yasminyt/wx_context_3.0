@@ -57,7 +57,7 @@
           </block>
 
           <view class="scan_container">
-            <image class="scan_image" bindtap="addDevice" src="/src/images/scan.png"></image>
+            <image class="scan_image" bindtap="scanDevice" src="/src/images/scan.png"></image>
             <text>扫描设备</text>
           </view>
         </block>

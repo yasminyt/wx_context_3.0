@@ -104,6 +104,10 @@ page{
   margin-bottom: 100rpx;
 }
 
+canvas {
+  width: 100%
+}
+
 
 /*
 .container {
