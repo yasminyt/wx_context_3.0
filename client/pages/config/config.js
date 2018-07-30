@@ -76,7 +76,7 @@ Page({
   // 转到说明界面
   toStatement: () => {
     wx.navigateTo({
-      url: '../statement/statement'
+      url: '../../package/pages/statement/statement'
     })
   },
   

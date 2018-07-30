@@ -1,5 +1,3 @@
-/* pages/qrcode/qrcode.wxss */
-
 Page{
   background-color:#EFEFEF;
 }

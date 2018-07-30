@@ -1,3 +1,0 @@
-<view class='page'>
-  <canvas canvas-id='qrcode' class='canvas'></canvas>
-</view>

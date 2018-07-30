@@ -1,9 +1,6 @@
-//获取应用实例
 var qcloud = require('../../vendor/wafer2-client-sdk/index')
 var config = require('../../config')
-var util = require('../../utils/util.js')
-
-const app = getApp()
+var util = require('../../utils/util')
 
 Page({
   data: {

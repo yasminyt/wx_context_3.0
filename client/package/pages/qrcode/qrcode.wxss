@@ -1,0 +1,44 @@
+/* pages/qrcode/qrcode.wxss */
+
+Page {
+  background-color: rgba(0, 0, 0, 0.555);
+}
+
+.page {
+  padding: 20% 8%;
+}
+
+.content {
+  background-color: #fff;
+  border-radius: 30px;
+}
+
+.page_hd {
+  padding-top: 10px;
+  padding-left: 10px;
+}
+
+.page__bd {
+  padding-top: 30px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+canvas {
+  width: 150px;
+  height: 150px;
+}
+
+.userinfo-nickname {
+  color: #000;
+  margin-left: 20px;
+}
+
+.page-body-text {
+  font-size: 28rpx;
+  line-height: 28px;
+  color: rgba(128, 102, 102, 0.473);
+  text-align: center;
+  padding-bottom: 10px;
+}

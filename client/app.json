@@ -5,12 +5,22 @@
     "pages/record/record",
     "pages/user/user",
 
-    "pages/config/config",
-    "pages/scan/scan",
-    "pages/qrcode/qrcode",
-    "pages/statement/statement",
-    "pages/msg/msg_fail",
-    "pages/msg/msg_success"
+    "pages/config/config"
+    
+  ],
+  "subPackages": [
+    {
+      "root": "package",
+      "pages": [
+        "pages/qrcode/qrcode",
+        "pages/authlog/authlog",
+        "pages/authuser/authuser",
+        "pages/disauth/disauth",
+        "pages/statement/statement",
+        "pages/msg/msg_fail",
+        "pages/msg/msg_success"
+      ]
+    }
   ],
   "window": {
     "navigationBarBackgroundColor": "#40b9fe",
@@ -43,12 +53,6 @@
       {
         "pagePath": "pages/user/user",
         "text": "我的",
-        "iconPath": "src/images/user.png",
-        "selectedIconPath": "src/images/user.png"
-      },
-      {
-        "pagePath": "pages/qrcode/qrcode",
-        "text": "测试",
         "iconPath": "src/images/user.png",
         "selectedIconPath": "src/images/user.png"
       }
