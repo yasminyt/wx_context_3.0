@@ -23,8 +23,6 @@ Page{
   opacity:0.8;
 }
 
-
-
 .null_device {
   padding-top: 100rpx;
 }

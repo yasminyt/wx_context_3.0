@@ -5,7 +5,7 @@ Page({
     showTopTips: false,
     checkboxItems: [
       { name: 'demo1 *************** T o T', value: '0'},
-      { name: 'standard is dealicient for u.', value: '1' }
+      { name: 'demo1 *************** T v T', value: '1' }
     ]
   },
 
@@ -30,15 +30,9 @@ Page({
 
   submit: function () {
     const that = this
-    if (choices.length === 0) {
+    if (choices.length === 0) 
       this.setData({
         showTopTips: true
       });
-      setTimeout(function () {
-        that.setData({
-          showTopTips: false
-        });
-      }, 3000);
-    }
   }
 })

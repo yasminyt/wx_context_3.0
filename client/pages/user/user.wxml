@@ -1,12 +1,15 @@
 <view class='page'>
   <view class='page_hd'>
-    <view class="userinfo">
-      <image class="userinfo-avatar" src="{{logged ? userInfo.avatarUrl : './user-unlogin.png'}}" background-size="cover"></image>
-      <view>
-        <button class="userinfo-nickname" wx:if="{{!logged}}" open-type="getUserInfo" bindgetuserinfo="bindGetUserInfo">点击登录</button>
-        <text class="userinfo-nickname" wx:else>{{userInfo.nickName}}</text>
+    <view class='weui-flex'>
+      <view class="userinfo">
+        <image class="userinfo-avatar" src="{{logged ? userInfo.avatarUrl : './user-unlogin.png'}}" background-size="cover"></image>
+        <view>
+          <button class="userinfo-nickname" wx:if="{{!logged}}" open-type="getUserInfo" bindgetuserinfo="bindGetUserInfo">点击登录</button>
+          <text class="userinfo-nickname" wx:else>{{userInfo.nickName}}</text>
+        </view>
       </view>
-      <view style="position:fixed; margin-left: 75%">
+
+      <view class="weui-flex__item userinfo">
         <navigator url="../../package/pages/qrcode/qrcode?openId={{userInfo.openId}}&nickName={{userInfo.nickName}}&avatarUrl={{userInfo.avatarUrl}}">
           <image src="../../src/images/qrcode.png" style="width: 50px; height: 50px;"></image>
         </navigator>
@@ -56,7 +59,7 @@
       <view class='weui-cell__ft weui-cell__ft_in-access'></view>
     </navigator>
 
-    <navigator url='' class='weui-cell weui-cell_access' hover-class='weui-cell_active'>
+    <navigator url='../../package/pages/disbind/disbind' class='weui-cell weui-cell_access' hover-class='weui-cell_active'>
       <view class='weui-cell__bd'>解除绑定</view>
       <view class='weui-cell__ft weui-cell__ft_in-access'></view>
     </navigator>

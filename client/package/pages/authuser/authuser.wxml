@@ -2,41 +2,54 @@
   <view class="page__bd" style='padding-top: 30px;'>
     <view class="weui-toptips weui-toptips_warn" wx:if="{{showTopTips}}">请通过扫描用户的二维码获取用户信息</view>
 
-    <view class="weui-cells__title">可授权设备</view>
-    <view class="weui-cells weui-cells_after-title">
-      <view class="weui-cell weui-cell_input">
-        <view class="weui-cell__hd">
-          <view class="weui-label">当前选择</view>
-        </view>
-        <view class="weui-cell__bd">
-          <picker bindchange="bindPickerChange" value="{{index}}" range="{{device}}">
-            <view class="weui-input">{{device[index]}}</view>
-          </picker>
-        </view>
-      </view>
-    </view>
-
-    <view class="weui-cells__title" style='padding-top: 20px;'>被授权用户</view>
-    <view class="weui-cells weui-cells_after-title">
-      <view class="weui-cell weui-cell_input weui-cell_vcode">
-        <view class="weui-cell__hd">
-          <view class="weui-label">当前用户</view>
-        </view>
-        <view class="weui-cell__bd">
-          <input class="weui-input" placeholder="扫描用户二维码获取👉" disabled="true" value='{{nickName}}' />
-        </view>
-        <view class="weui-cell__ft" style='padding-right: 20px;'>
-          <image class="weui-vcode-img" src='scanqrcode.png' style='width: 32px; height: 32px;' bindtap="scanUser"></image>
+    <block wx:if="{{device.length != 0}}">
+      <view class="weui-cells__title">可授权设备</view>
+      <view class="weui-cells weui-cells_after-title">
+        <view class="weui-cell weui-cell_input">
+          <view class="weui-cell__hd">
+            <view class="weui-label">当前选择</view>
+          </view>
+          <view class="weui-cell__bd">
+            <picker bindchange="bindPickerChange" value="{{index}}" range="{{device}}">
+              <view class="weui-input">{{device[index]}}</view>
+            </picker>
+          </view>
         </view>
       </view>
-    </view>
 
-    <view class="weui-cells__tips" style='padding-top: 15px;'>
-      经过授权后的用户可拥有对所选择的设备的使用权，谨慎操作
-    </view>
+      <view class="weui-cells__title" style='padding-top: 20px;'>被授权用户</view>
+      <view class="weui-cells weui-cells_after-title">
+        <view class="weui-cell weui-cell_input weui-cell_vcode">
+          <view class="weui-cell__hd">
+            <view class="weui-label">当前用户</view>
+          </view>
+          <view class="weui-cell__bd">
+            <input class="weui-input" placeholder="扫描用户二维码获取👉" disabled="true" value='{{nickName}}' />
+          </view>
+          <view class="weui-cell__ft" style='padding-right: 20px;'>
+            <image class="weui-vcode-img" src='scanqrcode.png' style='width: 32px; height: 32px;' bindtap="scanUser"></image>
+          </view>
+        </view>
+      </view>
 
-    <view class="weui-btn-area" style='margin-top: 40px;'>
-      <button class="weui-btn" type="primary" bindtap="submit">确定</button>
+      <view class="weui-cells__tips" style='padding-top: 15px;'>
+        经过授权后的用户可拥有对所选择的设备的使用权，谨慎操作
+      </view>
+
+      <view class="weui-btn-area" style='margin-top: 40px;'>
+        <button class="weui-btn" type="primary" bindtap="submit">确定</button>
+        <button bindtap="reset" style='margin-top: 20px;'>重 置</button>
+      </view>
+
+    </block>
+
+    <view wx:else style='text-align: center; padding: 50px 0;'>
+      <view>
+        <image src="norecord.png" style="width: 200px; height: 200px;" />
+      </view>
+      <view>
+        <text style='color: #40b9fe'>您没有可以授权的设备</text>
+      </view>
     </view>
   </view>
 </view>

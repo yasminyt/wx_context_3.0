@@ -33,11 +33,12 @@ router.get('/message', controllers.message.get)
 router.post('/message', controllers.message.post)
 
 // 处理数据库请求
-router.get('/configuration/:day', controllers.crud.query)
 router.post('/create', controllers.crud.create)
 router.post('/query', controllers.crud.query)
 router.post('/whereInquery', controllers.crud.query_whereIn)
+router.post('/query_innerJoin', controllers.crud.query_innerJoin)
 router.post('/query_select', controllers.crud.query_select)
 router.post('/query_device', controllers.crud.query_device)
+router.post('/update', controllers.crud.update)
 
 module.exports = router

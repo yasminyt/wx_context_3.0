@@ -1,8 +1,15 @@
+/**
 .page_hd {
 	display: flex;
 	flex-direction: column;
 	padding: 10rpx 20px 20rpx;
 	align-items: center;
+	background: #40b9fe;
+}
+**/
+
+.page_hd {
+	padding: 10rpx 20px 20rpx;
 	background: #40b9fe;
 }
 

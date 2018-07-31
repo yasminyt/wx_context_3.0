@@ -1,4 +1,3 @@
-/* pages/authlog/authlog.wxss */
 Page{
   background-color:#EFEFEF;
 }

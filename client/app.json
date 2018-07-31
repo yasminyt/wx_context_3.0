@@ -16,6 +16,7 @@
         "pages/authlog/authlog",
         "pages/authuser/authuser",
         "pages/disauth/disauth",
+        "pages/disbind/disbind",
         "pages/statement/statement",
         "pages/msg/msg_fail",
         "pages/msg/msg_success"

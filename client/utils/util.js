@@ -43,13 +43,16 @@ const isLogin = () => {
 var showBusy = text => wx.showToast({
   title: text,
   icon: 'loading',
-  duration: 10000
+  duration: 10000,
+  mask: true      
 })
 
 // 显示成功提示
 var showSuccess = text => wx.showToast({
   title: text,
-  icon: 'success'
+  icon: 'success',
+  duration: 1500,
+  mask: true
 })
 
 // 显示失败提示
