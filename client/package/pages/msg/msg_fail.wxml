@@ -4,8 +4,7 @@
       <icon type="warn" size="93"></icon>
     </view>
     <view class="weui-msg__text-area">
-      <view class="weui-msg__title">操作失败</view>
-      <view class="weui-msg__desc">{{content}}</view>
+      <view class="weui-msg__title">{{content}}</view>
     </view>
     <view class="weui-msg__opr-area">
       <view class="weui-btn-area">

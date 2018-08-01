@@ -87,7 +87,7 @@ Page({
     }
   },
 
-  doRequest: function(url, data, fromFun, mac_id) {
+  doRequest: function(url, data, fromFun) {
     const that = this
     util.showBusy('加载中')
     wx.request({

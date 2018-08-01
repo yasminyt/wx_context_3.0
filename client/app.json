@@ -19,7 +19,7 @@
         "pages/disbind/disbind",
         "pages/statement/statement",
         "pages/msg/msg_fail",
-        "pages/msg/msg_success"
+        "pages/msg/msg_info"
       ]
     }
   ],

@@ -20,27 +20,30 @@ const formatDay = (year, month, day) => {
   return [year, month, day].map(formatNumber).join('/');
 };
 
-const isLogin = () => {
+const isLogin = (page) => {
   const session = qclund.Session.get()
 
   if (!session)
-    wx.showModal({
-      title: '请求失败',
-      content: '请先登录再进行操作',
-      showCancel: false,
-      success: function(res) {
-        wx.switchTab({
-          url: '../user/user',
-        })
-      }
-    })
+    if (typeof page !== 'undefined')
+      wx.showModal({
+        title: '请求失败',
+        content: '请先登录再进行操作',
+        showCancel: false,
+        success: function(res) {
+          wx.switchTab({
+            url: '../user/user',
+          })
+        }
+      })
+    else 
+      return ''
   else
     return session.userinfo.openId
 };
 
 
 // 显示繁忙提示
-var showBusy = text => wx.showToast({
+const showBusy = text => wx.showToast({
   title: text,
   icon: 'loading',
   duration: 10000,
@@ -48,7 +51,7 @@ var showBusy = text => wx.showToast({
 })
 
 // 显示成功提示
-var showSuccess = text => wx.showToast({
+const showSuccess = text => wx.showToast({
   title: text,
   icon: 'success',
   duration: 1500,
@@ -56,7 +59,7 @@ var showSuccess = text => wx.showToast({
 })
 
 // 显示失败提示
-var showModal = (title, content) => {
+const showModal = (title, content) => {
   wx.hideToast();
   wx.showModal({
     title,

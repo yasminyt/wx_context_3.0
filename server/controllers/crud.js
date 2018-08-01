@@ -29,7 +29,7 @@ module.exports = {
     ctx.state.data = await mysql(table).whereIn(value, array)
   },
 
-  // 多表连接查询（这里主要用于用户授权和解除绑定两个页面获取设备使用）
+  // 多表连接查询（这里主要用于用户授权和首页两个页面获取设备）
   query_innerJoin: async ctx => {
     const {
       param
