@@ -82,3 +82,7 @@ Page{
 .page__bd {
   padding-bottom: 10px;
 }
+
+.weui-cell__bd {
+  padding-left: 10px;
+}
