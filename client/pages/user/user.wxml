@@ -10,9 +10,7 @@
       </view>
 
       <view class="weui-flex__item userinfo">
-        <navigator url="../../package/pages/qrcode/qrcode?openId={{userInfo.openId}}&nickName={{userInfo.nickName}}&avatarUrl={{userInfo.avatarUrl}}">
-          <image src="../../src/images/qrcode.png" style="width: 50px; height: 50px;"></image>
-        </navigator>
+        <image bindtap="toQrcode" src="../../src/images/qrcode.png" style="width: 50px; height: 50px;"></image>
       </view>
     </view>
   </view>
@@ -31,12 +29,7 @@
       </view>
 
       <navigator url='' class='weui-cell weui-cell_access' hover-class='weui-cell_active'>
-        <view class='weui-cell__bd'>上次治疗时间</view>
-        <view class='weui-cell__ft weui-cell__ft_in-access'></view>
-      </navigator>
-
-      <navigator url='' class='weui-cell weui-cell_access' hover-class='weui-cell_active'>
-        <view class='weui-cell__bd'>上次治疗配置</view>
+        <view class='weui-cell__bd'>上次治疗记录</view>
         <view class='weui-cell__ft weui-cell__ft_in-access'></view>
       </navigator>
     </view>

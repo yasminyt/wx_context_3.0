@@ -1,6 +1,7 @@
 var qcloud = require('../../vendor/wafer2-client-sdk/index')
-var config = require('../../config')
 var util = require('../../utils/util')
+
+let session;
 
 Page({
   data: {
@@ -13,7 +14,7 @@ Page({
     total_times: '201小时71分'
   },
   onLoad: function () {
-    const session = qcloud.Session.get();
+    session = qcloud.Session.get();
     if (session) {
       util.showBusy('更新中')
       // 第二次登录
@@ -34,7 +35,8 @@ Page({
   },
 
   onShow: function () {
-    
+    session = qcloud.Session.get();
+    if (!session)  this.setData({ userInfo: {}, logged: false })
   },
 
   // 用户登录
@@ -55,40 +57,16 @@ Page({
       }
     })
   },
-
-  // 切换是否带有登录态
-  /**
-   * swichRequestMode: function (e) {
-    this.setData({  takeSession: e.detail.value })
-    this.doRequest()
-  },
-
-  doRequest: function () {
-    util.showBusy('请求中...')
-    const that = this
-    const options = {
-      url: config.service.requestUrl,
-      login: true,
-      success (result) {
-        util.showSuccess('请求成功完成')
-        console.log('request success', result)
-        that.setData({
-          requestResult: JSON.stringify(result.data)
-        })
-      },
-      fail (error) {
-        util.showModal('请求失败', error)
-        console.log('request fail', error)
-      }
-    }
-    if (this.data.takeSession) {   // 使用 qcloud.request 带登录态登录
-      qcloud.request(options)
-    } else    // 使用 wx.request 则不带登录态
-      wx.request(options)
+  
+  toQrcode: function () {
+    if (Object.keys(this.data.userInfo).length) 
+      wx.navigateTo({
+        url: `../../package/pages/qrcode/qrcode?openId=${this.data.userInfo.openId}&nickName=${this.data.userInfo.nickName}&avatarUrl=${this.data.userInfo.avatarUrl}`,
+        success: function(res) {},
+        fail: function(res) {},
+        complete: function(res) {},
+      })
+    else
+      util.showModal('请求失败', '请先登录再进行操作！')
   }
-   * 
-   * 
-   */
-  
-  
 })

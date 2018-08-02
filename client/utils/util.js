@@ -24,19 +24,24 @@ const isLogin = (page) => {
   const session = qclund.Session.get()
 
   if (!session)
-    if (typeof page !== 'undefined')
+    if (page === 'index')
+      return ''
+    else 
       wx.showModal({
         title: '请求失败',
         content: '请先登录再进行操作',
         showCancel: false,
-        success: function(res) {
-          wx.switchTab({
-            url: '../user/user',
-          })
+        success: function() {
+          if ((page === 'package'))   // 来自package的页面
+            wx.navigateBack({
+              delta: 1,
+            })
+          else
+            wx.switchTab({
+              url: '../user/user',
+            })
         }
       })
-    else 
-      return ''
   else
     return session.userinfo.openId
 };

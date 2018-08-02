@@ -2,8 +2,8 @@ const config = require('../../../config')
 const util = require('../../../utils/util')
 
 let open_id = '',
-  authDevice_list = [],   // 包含的字段 ## auth_id, mac_id, name ##
-  index = -1
+    authDevice_list = [],   // 包含的字段 ## auth_id, mac_id, name ##
+    index = -1
 
 Page({
   data: {
@@ -24,7 +24,7 @@ Page({
   },
 
   onShow: function() {
-    open_id = util.isLogin()
+    open_id = util.isLogin('package')
     if (open_id)
       this.doRequest("query_innerJoin", {
         param: { open_id: open_id }
@@ -77,7 +77,6 @@ Page({
 
   resSubmit: function(data) {
     if (data) {
-      wx.hideToast()
       util.showSuccess('解绑成功')
       setTimeout(() => {
         this.doRequest("query_innerJoin", {

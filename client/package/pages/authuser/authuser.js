@@ -18,7 +18,7 @@ Page({
   },
 
   onShow: function() {
-    user_openId = util.isLogin()
+    user_openId = util.isLogin('package')
     if (user_openId)
       this.doRequest("query_device", {
         openId: user_openId

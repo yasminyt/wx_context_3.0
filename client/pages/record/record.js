@@ -42,6 +42,15 @@ Page({
     const open_id = util.isLogin()
     if (open_id) 
       this.showList(open_id)
+    console.log(open_id)
+      // util.isLogin(res => {
+      //   if (res) {
+      //     console.log(res)
+      //     open_id = res
+      //     this.showList(open_id)
+      //   }
+          
+      // })
     initCalendar({
       // multi: true, // 是否开启多选,
       // disablePastDay: true, // 是否禁选过去日期

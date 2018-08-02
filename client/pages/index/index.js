@@ -24,7 +24,7 @@ Page({
   },
 
   onLoad: function() {
-    var that = this;
+    const that = this
     wx.getSystemInfo({
       success: function(res) {
         that.setData({
@@ -45,7 +45,8 @@ Page({
   },
 
   onShow: function() {
-    open_id = util.isLogin()
+    open_id = util.isLogin('index')
+    console.log(open_id)
     if (open_id !== '') {
       this.setData({
         isLogin: true

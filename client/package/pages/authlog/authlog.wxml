@@ -15,6 +15,7 @@
     </view>
     <view class="weui-search-bar__cancel-btn" hidden="{{!inputShowed}}" bindtap="hideInput">取消</view>
   </view>
+
   <view class="page__bd">
     <view class="weui-panel weui-panel_access">
       <view class="weui-panel__bd">
@@ -56,5 +57,9 @@
         </view>
       </view>
     </view>
+  </view>
+
+  <view class="weui-footer weui-footer_fixed-bottom">
+    <view class="weui-footer__text">本页面仅作为一个示例</view>
   </view>
 </view>

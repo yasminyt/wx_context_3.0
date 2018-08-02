@@ -1,20 +1,36 @@
 <view class="page__bd" style='padding-top: 40px;'>
   <view class="weui-toptips weui-toptips_warn" wx:if="{{showTopTips}}">请至少选择一项</view>
-  <view class="weui-cells weui-cells_after-title">
-    <checkbox-group bindchange="checkboxChange">
-      <label class="weui-cell weui-check__label" wx:for="{{checkboxItems}}" wx:key="value">
-        <checkbox class="weui-check" value="{{item.value}}" checked="{{item.checked}}" />
 
-        <view class="weui-cell__hd weui-check__hd_in-checkbox">
-          <icon class="weui-icon-checkbox_circle" type="circle" size="23" wx:if="{{!item.checked}}"></icon>
-          <icon class="weui-icon-checkbox_success" type="success" size="23" wx:if="{{item.checked}}"></icon>
-        </view>
-        <view class="weui-cell__bd">{{item.name}}</view>
-      </label>
-    </checkbox-group>
-  </view>
+  <block wx:if="{{authList.length != 0}}">
+    <view class="weui-cells__title">授权记录</view>
+    <view class="weui-cells weui-cells_after-title">
+      <radio-group bindchange="radioChange">
+        <label class="weui-cell weui-check__label" wx:for="{{authList}}" wx:key="auth_id">
+          <radio class="weui-check" value="{{item.auth_id}}" checked="{{item.checked}}" />
 
-  <view class="weui-btn-area" style='padding-top: 30px;'>
-    <button class="weui-btn" type="primary" bindtap="submit">取消授权</button>
+          <view class="weui-cell__bd">{{item.name}} ********** {{item.nickName}}</view>
+          <view class="weui-cell__ft weui-cell__ft_in-radio" wx:if="{{item.checked}}">
+            <icon class="weui-icon-radio" type="success_no_circle" size="16"></icon>
+          </view>
+        </label>
+      </radio-group>
+    </view>
+
+    <view class="weui-cells__tips" style='padding-top: 15px;'>
+      解除授权后，该用户不能再通过小程序来控制设备
+    </view>
+
+    <view class="weui-btn-area" style='padding-top: 30px;'>
+      <button class="weui-btn" type="primary" bindtap="submit">解除授权</button>
+    </view>
+  </block>
+
+  <view wx:else style='text-align: center; padding: 50px 0;'>
+    <view>
+      <image src="norecord.png" style="width: 200px; height: 200px;" />
+    </view>
+    <view>
+      <text style='color: #40b9fe'>您还没有任何授权记录</text>
+    </view>
   </view>
 </view>

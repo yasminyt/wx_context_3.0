@@ -39,7 +39,7 @@ module.exports = {
 function getKey() {
   let sum = 0
   for (let i = 1; i <= 3; i++) {    // 将三条记录中，微信号前4个字符的ASCII码以及时间戳加和
-    sum += record[`open_id_${i}`]    
+    sum += toAscii(record[`open_id_${i}`])    
     sum += record[`tstmp_${i}`]
   }
   console.log(sum)
@@ -61,4 +61,12 @@ function verify(key) {
     return true
   else
     return false
+}
+
+function toAscii(str) {       // 分别求出四个字符的ASCII码，并相加
+  let sum = str.charCodeAt(0)
+  sum += str.charCodeAt(1)
+  sum += str.charCodeAt(2)
+  sum += str.charCodeAt(3)
+  return sum
 }
