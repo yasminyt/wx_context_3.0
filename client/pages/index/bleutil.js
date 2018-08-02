@@ -3,6 +3,7 @@ const util = require('../../utils/util')
 
 let deviceBLE_msg = {} // 保存了 deviceId、serviceId、write_CharacteristicsId、targetAddr、ownAddr、seed 
 let open_id = ''
+let tstamp    // 新的时间戳
 
 /** 初始化蓝牙模块 */
 const openBluetoothAdapter = () => {
@@ -99,21 +100,21 @@ function notifyBLECharacteristicValueChange(deviceId, serviceId, notify_Characte
     characteristicId: notify_CharacteristicsId,
     success: res => {
       console.log('notifyBLECharacteristicValueChange ------- ', res.errMsg)
-      onBLECharacteristicValueChange(callback)
+      onBLECharacteristicValueChange(deviceId, callback)
     }
   })
 }
 
 /** 监听低功耗蓝牙设备的特征值变化，主要是通过该接口来接收设备回发的数据 */
-function onBLECharacteristicValueChange(callback) {
+function onBLECharacteristicValueChange(deviceId, callback) {
   wx.onBLECharacteristicValueChange(res => {
     console.log('onBLECharacteristicValueChange -------- ', res)
-    verifyPkg(res.value, callback)
+    verifyPkg(res.value, deviceId, callback)
   })
 
   // 到这里已经完成了与设备的连接，现在主要是通过通讯来注册安全协议
   util.showBusy('建立安全连接')
-  generateHandshakePkg(res => {
+  generateHandshakePkg(deviceId, res => {
     console.log(res)
     sendData(res)
   })
@@ -136,7 +137,7 @@ const sendData = (value) => {
 }
 
 // 建立安全连接时发送的握手包
-function generateHandshakePkg(callback) {
+function generateHandshakePkg(deviceId, callback) {
   const handshakePkg = new ArrayBuffer(16)
   let array = new Int8Array(handshakePkg)
 
@@ -150,7 +151,7 @@ function generateHandshakePkg(callback) {
     array[i + 4] = open_id.charCodeAt(i) // 将open_id的前4个字符分别转换为十进制的ASCII码
   // 请求服务器获取第三和第四个字节  =====>  密钥key 和 时间戳
 
-  doRequest('query', {}, res => {
+  doRequest('getKey', {table: 'ctrlRecord', values: {mac_id: deviceId}}, res => {
     console.log(res)
     const key = res.key             // 密钥
 
@@ -161,7 +162,7 @@ function generateHandshakePkg(callback) {
     array[8] = key & 0xFF
 
     // 生成新的时间戳，并将时间戳转换为二进制表示，放入最后4个字节当中
-    const tstamp = (new Date()).getTime() % (2^32)
+    tstamp = (new Date()).getTime() % (2^32)
     array[15] = (tstamp >> 24) & 0xFF
     array[14] = (tstamp >> 16) & 0xFF
     array[13] = (tstamp >> 8) & 0xFF
@@ -173,7 +174,7 @@ function generateHandshakePkg(callback) {
 }
 
 // 建立安全连接后对设备返回的信息进行验证处理
-function verifyPkg(rec_array, callback) {
+function verifyPkg(rec_array, deviceId, callback) {
   const array = new Int8Array(rec_array)
   if (array[0] == 255 && array[1] == 255 && array[2] == 255 && array[3] == 255)
     return;
@@ -186,7 +187,7 @@ function verifyPkg(rec_array, callback) {
   r_key = r_key | (array[0] & 0xFF)
 
   // 将设备发回的密钥发送到服务器进行验证
-  doRequest('', {}, res => {
+  doRequest('verify', {key: rec_array, table: 'ctrlRecord', values: {open_id: open_id.substring(0, 4), tstamp: tstamp}, params: {mac_id: deviceId}}, res => {
     if (res.flag) {
       let peerAddr = new Int8Array(6)
       let ownAddr = new Int8Array(6)

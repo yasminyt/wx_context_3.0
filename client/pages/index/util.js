@@ -5,6 +5,7 @@ let openId = ''
 
 export function handleScan(data, open_id) {
   openId = open_id
+
   doRequest('query', { // 根据扫描结果查找#device#表，看设备是否已激活
     table: 'device',
     values: {
@@ -14,15 +15,17 @@ export function handleScan(data, open_id) {
 }
 
 function resScan(res) {
-  res = res[0]
-  wx.hideToast()
-  if (res.anivation) // 已被激活
+  if (res.length === 0)  // 说明不存在该设备
+    wx.navigateTo({
+      url: '../../package/pages/msg/msg_fail?content=所扫描的内容有误，请重新扫描！'
+    })
+  else if (res[0].anivation) // 已被激活
     wx.navigateTo({
       url: '../../package/pages/msg/msg_fail?content=该设备已被激活，您没有权限使用，可通过他人进行授权！'
     })
   else
     wx.navigateTo({
-      url: `../../package/pages/msg/msg_info?content=是否将** ${res.name} **设备进行激活？激活后该设备将添加到您的可用设备列表中&mac_id=${res.mac_id}&open_id=${openId}`
+      url: `../../package/pages/msg/msg_info?content=是否将** ${res[0].name} **设备进行激活？激活后该设备将添加到您的可用设备列表中&mac_id=${res[0].mac_id}&open_id=${openId}`
     })
 }
 

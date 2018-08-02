@@ -115,7 +115,7 @@ Page({
   scanDevice: function() {
     wx.scanCode({
       success: (res) => {
-        //index_util(res.result, open_id)
+        //index_util.handleScan(res.result, open_id)
         index_util.handleScan('89:23:33:99', open_id)   // 测试用
       }
     })

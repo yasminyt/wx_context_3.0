@@ -41,4 +41,8 @@ router.post('/query_select', controllers.crud.query_select)
 router.post('/query_device', controllers.crud.query_device)
 router.post('/update', controllers.crud.update)
 
+// 安全协议
+router.post('/getKey', controllers.security.query)
+router.post('/verify', controllers.security.update)
+
 module.exports = router
