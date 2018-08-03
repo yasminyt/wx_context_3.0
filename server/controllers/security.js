@@ -26,9 +26,11 @@ module.exports = {
     const up_openId = `open_id_${record.record_index}`,
           up_tstamp = `tstamp_${record.record_index}`
     let up_value = {}
-    record[up_openId] = up_value[up_openId] = values.open_id,
-    record[up_tstamp] = up_value[up_tstamp] = values.tstamp,
-    record.record_index = up_value.record_index = ++record.record_index
+    record[up_openId] = up_value[up_openId] = values.open_id
+    record[up_tstamp] = up_value[up_tstamp] = values.tstamp
+    if (record.record_index === 3)
+      record.record_index = up_value.record_index = 1
+    else record.record_index = up_value.record_index = ++record.record_index
     
     const res = await mysql(table).update(up_value).where(params)
     console.log(res)
@@ -39,8 +41,9 @@ module.exports = {
 function getKey() {
   let sum = 0
   for (let i = 1; i <= 3; i++) {    // 将三条记录中，微信号前4个字符的ASCII码以及时间戳加和
-    sum += toAscii(record[`open_id_${i}`])    
-    sum += record[`tstmp_${i}`]
+    if (record[`open_id_${i}`] !== null)
+      sum += toAscii(record[`open_id_${i}`])    
+    sum += record[`tstamp_${i}`]
   }
   console.log(sum)
   return monteCarlo(sum)

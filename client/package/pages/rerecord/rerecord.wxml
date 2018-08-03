@@ -1,0 +1,59 @@
+<view class="page">
+  <block wx:if="{{hasData}}">
+    <view class="page__hd">
+      <view class="page__title" style='text-align:center'>
+        <text>最近一次配置设备的记录</text>
+        <text style="padding-top: 20px;">{{record.create_time}}</text>
+      </view>
+    </view>
+    <view class="page__bd" style='padding-bottom:10px'>
+      <view class="weui-form-preview">
+        <view class="weui-form-preview__hd">
+          <view class="weui-form-preview__label">设备</view>
+          <view class="weui-form-preview__value_in-hd">{{record.mac_name}}</view>
+        </view>
+        <view class="weui-form-preview__bd">
+          <view class="weui-form-preview__item">
+            <view class="weui-form-preview__label">设备号</view>
+            <view class="weui-form-preview__value">{{record.mac_id}}</view>
+          </view>
+          <view class="weui-form-preview__item">
+            <view class="weui-form-preview__label">模式</view>
+            <block wx:if="{{record.mode === 0}}">
+              <view class="weui-form-preview__value">连续波</view>
+            </block>
+            <block wx:if="{{record.mode === 1}}">
+              <view class="weui-form-preview__value">断续波</view>
+            </block>
+            <block wx:if="{{record.mode === 2}}">
+              <view class="weui-form-preview__value">疏密波</view>
+            </block>
+          </view>
+          <view class="weui-form-preview__item">
+            <view class="weui-form-preview__label">强度</view>
+            <view class="weui-form-preview__value">{{record.intensity}}%</view>
+          </view>
+          <view class="weui-form-preview__item">
+            <view class="weui-form-preview__label">频率</view>
+            <view class="weui-form-preview__value">{{record.freq}}Hz</view>
+          </view>
+          <view class="weui-form-preview__item">
+            <view class="weui-form-preview__label">设定时长</view>
+            <view class="weui-form-preview__value">{{record.set_time}}min</view>
+          </view>
+        </view>
+      </view>
+    </view>
+  </block>
+
+  <block wx:else>
+    <view class="page__hd" style='padding: 80px 0'>
+      <view class="page__title" style='text-align: center'>
+        <image src='norecord.png' style='width: 200px; height: 200px;'></image>
+        <view style='text-align: center; color: #40b9fe; padding-top: 15px'>
+          <text>没有找到任何记录</text>
+        </view>
+      </view>
+    </view>
+  </block>
+</view>

@@ -6,7 +6,6 @@
     <block wx:for="{{workList}}" wx:key="{{item.config_id}}">
       <view class="page__hd" style='padding-top: 0'>
         <view class="page__desc">{{item.mac_id}} ----------- {{item.mac_name}}</view>
-        <canvas canvas-id="{{item.mac_id}}" class="canvas" style='background-color: black'></canvas>
       </view>
       <view class="page__bd" style='padding-bottom:10px'>
         <view class="weui-form-preview">
@@ -41,13 +40,13 @@
             </view>
             <view class="weui-form-preview__item">
               <view class="weui-form-preview__label">剩余时长</view>
-              <view class="weui-form-preview__value">{{item.downTime}}</view>
+              <view class="weui-form-preview__value">{{downTime}}</view>
             </view>
           </view>
           <view class="weui-form-preview__ft">
             <view class="weui-form-preview__btn weui-form-preview__btn_warning" hover-class="weui-form-preview__btn_active"
-              data-deviceId="{{item.config_id}}" data-status="{{item.status}}" data-downTime="{{item.downTime}}" bindtap="doAction">
-              {{(item.status == "work") ? "暂 停" : ((item.downTime == 0) ? "删除任务" : "重新启动") }}
+              data-configId="{{item.config_id}}" data-deviceId="{{item.mac_id}}" data-status="{{item.status}}" data-downTime="{{downTime}}" bindtap="doAction">
+              {{(item.status == "work") ? "暂 停" : ((downTime == '00min00s') ? "删除任务" : "重新启动") }}
             </view>
             <!--
             <block wx:if="{{!complete}}">
@@ -57,7 +56,10 @@
               <view class="weui-form-preview__btn weui-form-preview__btn_default" disabled="true">暂停</view>
             </block>
             -->
-            <view data-deviceId='{{item.config_id}}' bindtap="reset" class="weui-form-preview__btn weui-form-preview__btn_primary" hover-class="weui-form-preview__btn_active">重新设置</view>
+            <view data-configId='{{item.config_id}}' data-deviceId="{{item.mac_id}}" data-deviceName="{{item.name}}" 
+              data-status="{{item.status}}" bindtap="reset" 
+              class="weui-form-preview__btn weui-form-preview__btn_primary" 
+              hover-class="weui-form-preview__btn_active">重新设置</view>
           </view>
         </view>
       </view>

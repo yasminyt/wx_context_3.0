@@ -46,7 +46,6 @@ Page({
 
   onShow: function() {
     open_id = util.isLogin('index')
-    console.log(open_id)
     if (open_id !== '') {
       this.setData({
         isLogin: true
@@ -116,8 +115,8 @@ Page({
   scanDevice: function() {
     wx.scanCode({
       success: (res) => {
-        //index_util.handleScan(res.result, open_id)
-        index_util.handleScan('89:23:33:99', open_id)   // 测试用
+        index_util.handleScan(res.result, open_id)
+        //index_util.handleScan('89:23:33:99', open_id)   // 测试用
       }
     })
   },

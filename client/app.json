@@ -18,6 +18,7 @@
         "pages/disauth/disauth",
         "pages/disbind/disbind",
         "pages/statement/statement",
+        "pages/rerecord/rerecord",
         "pages/msg/msg_fail",
         "pages/msg/msg_info"
       ]

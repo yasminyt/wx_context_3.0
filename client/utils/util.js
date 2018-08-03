@@ -52,7 +52,7 @@ const showBusy = text => wx.showToast({
   title: text,
   icon: 'loading',
   duration: 10000,
-  mask: true      
+  mask: false      
 })
 
 // 显示成功提示

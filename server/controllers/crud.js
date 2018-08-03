@@ -53,6 +53,14 @@ module.exports = {
     }).select('auth_id', 'device.mac_id', 'name', 'user_info')
   },
 
+  // 对查询结果按主键进行排序（这里主要用于查询最后一次记录）
+  query_orderBy: async ctx => {
+    const {
+      params
+    } = ctx.request.body
+    ctx.state.data = await mysql('configuration').where(params).orderBy('config_id', 'desc').first()
+  },
+
   // 查询某个字段
   query_select: async ctx => {
     const {
