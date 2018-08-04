@@ -9,6 +9,7 @@ let navigateUrl = '../config/config'
 let open_id
 let index = 0      // 记录下要连接的设备在# available_device # 中的位置
 let unIndex = -1    // 记录下要卸载的设备在 connected_device 中的位置
+let disConnInterval
 
 Page({
   data: {
@@ -110,6 +111,8 @@ Page({
                 connected_device: connected_device,
                 available_device: radioItems
               })
+
+              disConnInterval = setInterval(that.isDisConn, 1000)
             }
           })
         } else {
@@ -199,5 +202,17 @@ Page({
       }
     })
   },
+
+  isDisConn: function () {
+    ble_util.sendState(res => {
+      if (!res) {
+        clearInterval(disConnInterval)
+        util.showModal('提示', '当前设备已失去连接，请稍后重新连接！')
+        this.setData({
+          connected_device: []
+        })
+      }
+    })
+  }
 
 })

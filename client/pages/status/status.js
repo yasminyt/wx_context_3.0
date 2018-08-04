@@ -14,6 +14,7 @@ Page({
   },
 
   onShow: function() {
+    console.log()
     clearInterval(interval)
     open_id = util.isLogin()
     if (open_id) 

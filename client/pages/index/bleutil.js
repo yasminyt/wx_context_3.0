@@ -6,6 +6,7 @@ let deviceBLE_msg_list = []  // 保存所有连接设备的信息列表
 let open_id = ''
 let tstamp    // 新的时间戳
 let timeArray // 接收到的倒计时数组
+let connected = true // 连接状态标志
 
 /** 初始化蓝牙模块 */
 const openBluetoothAdapter = () => {
@@ -51,7 +52,7 @@ const getBluetoothAdapterState = (mac_id, user_openId, callback) => {
 
 function startBluetoothDevicesDiscovery(deviceId, callback) {
   wx.startBluetoothDevicesDiscovery({
-    //service: ['713D0000-503E-4C75-BA94-3148F18D941E'],
+    //service: ['1E948DF1483194BA754C3E5000003D71'],
     success: function (res) {
       console.log(res)
       onBluetoothDeviceFound(deviceId, callback)
@@ -84,6 +85,7 @@ function createBLEConnection(deviceId, callback) {
     deviceId: deviceId,
     success: res => {
       console.log('createBLEConnection ----- ', res)
+      connected = true
       getBLEDeviceServices(deviceId, callback)
     }, 
     fail: res => {
@@ -138,6 +140,7 @@ function notifyBLECharacteristicValueChange(deviceId, serviceId, notify_Characte
     success: res => {
       console.log('notifyBLECharacteristicValueChange ------- ', res.errMsg)
       onBLECharacteristicValueChange(deviceId, callback)
+      onBLEConnectionStateChange()
     }
   })
 }
@@ -153,6 +156,15 @@ function onBLECharacteristicValueChange(deviceId, callback) {
   util.showBusy('建立安全连接')
   generateHandshakePkg(deviceId, res => {
     sendData(deviceId, res)
+  })
+}
+
+function onBLEConnectionStateChange() {
+  wx.onBLEConnectionStateChange(res => {
+    // 该方法回调中可以用于处理连接意外断开等异常情况
+    console.log(`device ${res.deviceId} state has changed, connected: ${res.connected}`)
+    if (!res.connected) 
+      connected = false
   })
 }
 
@@ -229,8 +241,8 @@ function generateHandshakePkg(deviceId, callback) {
 function verifyPkg(rec_array, deviceId, callback) {
   const array = new Int8Array(rec_array)    // array是一个对象
   if (Object.keys(array).length === 16) {   
-    if (array[0] == 255 && array[1] == 255 && array[2] == 255 && array[3] == 255)
-      return;
+    if (array[0] == 255 && array[1] == 255 && array[2] == 255 && array[3] == 255) 
+      return
 
     // 连接成功
     let r_key = 0
@@ -363,6 +375,10 @@ const sendTime = callback => {
   callback(timeArray)
 }
 
+const sendState = callback => {
+  callback(connected)
+}
+
 function isConn(mac_id) {
   for (let i = 0; i < deviceBLE_msg_list.length; i++) 
     if (deviceBLE_msg_list[i].deviceId === mac_id)
@@ -377,5 +393,6 @@ module.exports = {
   uninstallNetwork: uninstallNetwork,
   sendData: sendData,
   sendFrame: sendFrame,
-  sendTime: sendTime
+  sendTime: sendTime,
+  sendState: sendState
 }
