@@ -39,8 +39,11 @@ const getBluetoothAdapterState = (mac_id, user_openId, callback) => {
         util.showBusy('正在连接')
         deviceBLE_msg.deviceId = mac_id
         open_id = user_openId
-        //createBLEConnection(mac_id, callback); 
-        startBluetoothDevicesDiscovery(mac_id, callback)
+        // 先判断设备是否已连接过
+        if (isConn(mac_id))
+          createBLEConnection(mac_id, callback)
+        else
+          startBluetoothDevicesDiscovery(mac_id, callback)
       }
     }
   })
@@ -48,7 +51,7 @@ const getBluetoothAdapterState = (mac_id, user_openId, callback) => {
 
 function startBluetoothDevicesDiscovery(deviceId, callback) {
   wx.startBluetoothDevicesDiscovery({
-    //service: ['713D0000503E4C75BA943148F18D941E'],
+    //service: ['713D0000-503E-4C75-BA94-3148F18D941E'],
     success: function (res) {
       console.log(res)
       onBluetoothDeviceFound(deviceId, callback)
@@ -117,6 +120,7 @@ function getBLEDeviceCharacteristics(deviceId, serviceId, callback) {
         if (res.characteristics[i].properties.write)
           deviceBLE_msg.write_CharacteristicsId = res.characteristics[i].uuid
       }
+      deviceBLE_msg_list.push(deviceBLE_msg)
       notifyBLECharacteristicValueChange(deviceId, serviceId, notify_CharacteristicsId, callback)
     }
   })
@@ -148,22 +152,40 @@ function onBLECharacteristicValueChange(deviceId, callback) {
   // 到这里已经完成了与设备的连接，现在主要是通过通讯来注册安全协议
   util.showBusy('建立安全连接')
   generateHandshakePkg(deviceId, res => {
-    sendData(res)
+    sendData(deviceId, res)
   })
 }
 
 /** 向低功耗蓝牙设备特征值中写入二进制数据，主要是用于发送数据 */
-const sendData = (value) => {
+const sendData = (deviceId, value) => {
+  let serviceId, write_CharacteristicsId
+  deviceBLE_msg_list.some(item => {
+    if (item.deviceId === deviceId) {
+      serviceId = item.serviceId
+      write_CharacteristicsId = item.write_CharacteristicsId
+      return true
+    }
+  })
   wx.writeBLECharacteristicValue({
-    deviceId: deviceBLE_msg.deviceId,
+    deviceId: deviceId,
     // 这里的 serviceId 需要在上面的 getBLEDeviceServices 接口中获取
-    serviceId: deviceBLE_msg.serviceId,
+    serviceId: serviceId,
     // 这里的 characteristicId 需要在上面的 getBLEDeviceCharacteristics 接口中获取
-    characteristicId: deviceBLE_msg.write_CharacteristicsId,
+    characteristicId: write_CharacteristicsId,
     // 这里的value是ArrayBuffer类型
     value: value,
     success: function(res) {
       console.log('writeBLECharacteristicValue success', res.errMsg)
+    }
+  })
+}
+
+function closeBLEConnection(deviceId, callback) {
+  wx.closeBLEConnection({
+    deviceId:deviceId,
+    success: function (res) {
+      console.log('closeBLEConnection ------ ', res)
+      callback && callback(true)
     }
   })
 }
@@ -199,7 +221,6 @@ function generateHandshakePkg(deviceId, callback) {
     array[13] = (tstamp >> 8) & 0xFF
     array[12] = tstamp & 0xFF
 
-    console.log(array)
     callback(handshakePkg) // 通过回调函数返回值
   })
 }
@@ -230,11 +251,14 @@ function verifyPkg(rec_array, deviceId, callback) {
         for (let i = 4; i < 10; i++)
           ownAddr[j++] = array[i]
 
-        deviceBLE_msg.targetAddr = peerAddr
-        deviceBLE_msg.ownAddr = ownAddr
-        deviceBLE_msg.seed = Math.floor(Math.random() * (100 + 1))
-
-        deviceBLE_msg_list.push(deviceBLE_msg)
+        deviceBLE_msg_list.some(item => {
+          if (item.deviceId === deviceId) {
+            item.targetAddr = peerAddr
+            item.ownAddr = ownAddr
+            item.seed = Math.floor(Math.random() * (100 + 1))
+            return true
+          }
+        })
 
         util.showSuccess('安全连接已建立')
         callback({available: true, conn: true})
@@ -247,21 +271,38 @@ function verifyPkg(rec_array, deviceId, callback) {
     timeArray = array
 }
 
+// 建立卸载安全连接的验证包
+function generateUninstallPkg() {
+  const pkg = new ArrayBuffer(16)
+  let array = new Int8Array(pkg)
+
+  array[0] = 0xAA; array[1] = 0xAB; array[2] = 0xAC; array[3] = 0xAD;
+  for (let i = 4; i < 16; i++)
+    array[i] = 0xFF;
+
+  return pkg;
+}
+
+// 卸载安全协议
+const uninstallNetwork = (deviceId, callback) => {
+  const uninstallPkg = generateUninstallPkg()
+
+  sendData(deviceId, uninstallPkg)
+
+  closeBLEConnection(deviceId, callback)
+}
+
 const sendFrame = (mac_id, send_array, callback) => {
   let ownAddr, targetAddr, seed, index = 0
-  for (; index < deviceBLE_msg_list.length; index++) {
-
-  
-    if (deviceBLE_msg_list[index].deviceId === mac_id) {
-      ownAddr = deviceBLE_msg_list[index].ownAddr
-      targetAddr = deviceBLE_msg_list[index].targetAddr
-      seed = deviceBLE_msg_list[index].seed
-      console.log('hhhh')
-      break
+  deviceBLE_msg_list.some((item, i) => {
+    if (item.deviceId === mac_id) {
+      ownAddr = item.ownAddr
+      targetAddr = item.targetAddr
+      seed = item.seed
+      index = i
+      return true
     }
-  }
-  console.log(deviceBLE_msg_list.length)
-  console.log("targetAddr ---- ", targetAddr)
+  })
   // generate pkg #1
   const pkg1 = new ArrayBuffer(16);
   let array1 = new Int8Array(pkg1);
@@ -273,8 +314,6 @@ const sendFrame = (mac_id, send_array, callback) => {
   j = 0;
   for (let i = 10; i < 16; i++)
     array1[i] = targetAddr[j++];
-
-  console.log('array1 --- ', array1)
 
   // generate pkg #2
   let pkg2 = new ArrayBuffer(16);
@@ -292,10 +331,10 @@ const sendFrame = (mac_id, send_array, callback) => {
 
   deviceBLE_msg_list[index].seed = monteCarlo(seed)
 
-  sendData(pkg1)
+  sendData(mac_id, pkg1)
 
   setTimeout(() => {
-    sendData(pkg2)
+    sendData(mac_id, pkg2)
   }, 1000);
 
   callback(true)
@@ -321,13 +360,21 @@ function doRequest(url, data, callback) {
 }
 
 const sendTime = callback => {
-  console.log('timeArray ---- ', timeArray)
   callback(timeArray)
+}
+
+function isConn(mac_id) {
+  for (let i = 0; i < deviceBLE_msg_list.length; i++) 
+    if (deviceBLE_msg_list[i].deviceId === mac_id)
+      return true
+  
+  return false
 }
 
 module.exports = {
   openBluetoothAdapter: openBluetoothAdapter,
   getBluetoothAdapterState: getBluetoothAdapterState,
+  uninstallNetwork: uninstallNetwork,
   sendData: sendData,
   sendFrame: sendFrame,
   sendTime: sendTime

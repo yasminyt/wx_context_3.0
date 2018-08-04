@@ -24,9 +24,10 @@ module.exports = {
     const {
       table,
       value,
-      array
+      array,
+      params
     } = ctx.request.body
-    ctx.state.data = await mysql(table).whereIn(value, array)
+    ctx.state.data = await mysql(table).whereIn(value, array).where(params)
   },
 
   // 两张表连接查询（这里主要用于用户授权和首页两个页面获取设备）

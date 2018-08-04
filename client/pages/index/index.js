@@ -8,6 +8,7 @@ var sliderWidth = 96; // 需要设置slider的宽度，用于计算中间位置
 let navigateUrl = '../config/config'
 let open_id
 let index = 0      // 记录下要连接的设备在# available_device # 中的位置
+let unIndex = -1    // 记录下要卸载的设备在 connected_device 中的位置
 
 Page({
   data: {
@@ -20,7 +21,6 @@ Page({
 
     connected_device: [],
     available_device: [],     // 即用户拥有权限的设备，包含的字段有：auth_id, mac_id, name
-
   },
 
   onLoad: function() {
@@ -79,7 +79,14 @@ Page({
 
     this.setData({
       available_device: radioItems
-    });
+    })
+
+    for (let i = 0; i < this.data.connected_device.length; i++) 
+      if (e.detail.value === this.data.connected_device[i].deviceId) {
+        radioItems[index].checked = false
+        this.setData({ available_device: radioItems })
+        return util.showModal('操作失败', '该设备已连接，请不要重复连接！')
+      }
 
     wx.showModal({
       title: '提 示',
@@ -98,7 +105,11 @@ Page({
                 name: radioItems[index].name,
                 url: `${navigateUrl}?deviceId=${radioItems[index].mac_id}&name=${radioItems[index].name}`
               })
-              that.setData({ connected_device: connected_device })
+              radioItems[index].checked = false
+              that.setData({ 
+                connected_device: connected_device,
+                available_device: radioItems
+              })
             }
           })
         } else {
@@ -111,12 +122,56 @@ Page({
     })
   },
 
+  // 卸载网络设备项
+  unConnChange: function (e) {
+    let radioItems = this.data.connected_device;
+    for (let i = 0; i < radioItems.length; ++i) {
+      radioItems[i].checked = radioItems[i].deviceId == e.detail.value    // e.detail.value ======> deviceId
+      if (radioItems[i].checked ) unIndex = i   
+    }
+    this.setData({
+      connected_device: radioItems
+    })
+  },
+
   // 扫描设备
   scanDevice: function() {
     wx.scanCode({
       success: (res) => {
         index_util.handleScan(res.result, open_id)
         //index_util.handleScan('89:23:33:99', open_id)   // 测试用
+      }
+    })
+  },
+
+  // 卸载网络
+  uninstall: function () {
+    if (unIndex === -1 ) 
+      return util.showModal('操作失败', '请选择一项进行操作')
+
+    const that = this
+    let connected_device = this.data.connected_device
+    wx.showModal({
+      title: '提 示',
+      content: `是否要取消与 ${connected_device[unIndex].name} 设备的安全连接？`,
+      showCancel: true,
+      success: res => {
+        if (res.confirm) {
+          util.showBusy('正在取消连接')
+          ble_util.uninstallNetwork(connected_device[unIndex].deviceId, res => {
+            if (res) {
+              util.showSuccess('已断开连接')
+              connected_device.splice(unIndex)
+              that.setData({
+                connected_device: connected_device
+              })
+            }
+          })
+        } else {
+          connected_device[unIndex].checked = false
+          unIndex = -1
+          that.setData({ connected_device: connected_device })
+        }
       }
     })
   },

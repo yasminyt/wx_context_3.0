@@ -72,7 +72,7 @@
           <view class='page__hd page__bd_spacing'>
             <view class="weui-cells__title">已配对设备：{{ connected_device.length }}</view>
             <view class="weui-cells weui-cells_after-title">
-              <radio-group bindchange="radioChange">
+              <radio-group bindchange="unConnChange">
                 <label class="weui-cell weui-check__label" wx:for="{{connected_device}}" wx:key="{{item.deviceId}}">
                   <radio class="weui-check" value="{{item.deviceId}}" checked="{{item.checked}}" />
                   <view class="weui-cell__bd">{{item.deviceId}}--------{{item.name}}</view>
@@ -84,7 +84,7 @@
             </view>
           </view>
 
-          <view class='page__bd page__bd_spacing'>
+          <view class='btn-area'>
             <button bindtap='uninstall' class="weui-btn" type="warn">卸载网络</button>
           </view>
         </block>

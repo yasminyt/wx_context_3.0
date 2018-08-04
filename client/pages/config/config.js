@@ -2,7 +2,7 @@ const config = require('../../config')
 const util = require('../../utils/util')
 const ble_util = require('../index/bleutil')
 
-let deviceId, deviceName, configId, open_id;
+let deviceId, deviceName, open_id;
 
 Page({
   data: {
@@ -11,9 +11,6 @@ Page({
   onLoad: function(options) {
     deviceId = options.deviceId
     deviceName = options.name
-    configId = options.configId
-
-    console.log(configId)
 
     this.setData({
       device: `${deviceId}-----------${deviceName}`
@@ -54,17 +51,18 @@ Page({
           ble_util.sendFrame(deviceId, array, res => {
             if (res) {
               util.showBusy('正在保存配置')
-              that.setStorage(values)
-              if (configId)
-                that.doRequest('update', {
-                  table: 'configuration',
-                  values: {
-                    status: 'off'
-                  },
-                  params: {
-                    config_id: configId
-                  }
-                })
+              that.doRequest('update', {  // 这里直接把该设备有关的记录全设置为off
+                table: 'configuration',
+                values: {
+                  status: 'off'
+                },
+                params: {
+                  mac_id: deviceId
+                }
+              }, success => {
+                if (success) 
+                  that.setStorage(values)
+              })
             }
           })
         }
@@ -87,7 +85,7 @@ Page({
     })
   },
 
-  doRequest: function(crud, data) {
+  doRequest: function(crud, data, callback) {
     wx.request({
       url: `${config.service.host}/weapp/${crud}`,
       method: "POST",
@@ -100,6 +98,7 @@ Page({
             url: '../status/status'
           })
         }
+        callback && callback(true)
       },
       fail(result) {
         console.log('fail-------')

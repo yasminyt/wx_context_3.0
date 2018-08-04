@@ -46,7 +46,7 @@
           <view class="weui-form-preview__ft">
             <view class="weui-form-preview__btn weui-form-preview__btn_warning" hover-class="weui-form-preview__btn_active"
               data-configId="{{item.config_id}}" data-deviceId="{{item.mac_id}}" data-status="{{item.status}}" data-downTime="{{downTime}}" bindtap="doAction">
-              {{(item.status == "work") ? "暂 停" : ((downTime == '00min00s') ? "删除任务" : "重新启动") }}
+              {{(item.status == "work") ? "暂 停" : ((downTime == '00min 00s') ? "删除任务" : "重新启动") }}
             </view>
             <!--
             <block wx:if="{{!complete}}">
@@ -56,7 +56,7 @@
               <view class="weui-form-preview__btn weui-form-preview__btn_default" disabled="true">暂停</view>
             </block>
             -->
-            <view data-configId='{{item.config_id}}' data-deviceId="{{item.mac_id}}" data-deviceName="{{item.name}}" 
+            <view data-configId='{{item.config_id}}' data-deviceId="{{item.mac_id}}" data-deviceName="{{item.mac_name}}" 
               data-status="{{item.status}}" bindtap="reset" 
               class="weui-form-preview__btn weui-form-preview__btn_primary" 
               hover-class="weui-form-preview__btn_active">重新设置</view>
