@@ -14,11 +14,14 @@ Page({
   },
 
   onShow: function() {
-    console.log()
     clearInterval(interval)
     open_id = util.isLogin()
     if (open_id) 
       this.queryList('on')
+  },
+
+  onHide: function () {
+    clearInterval(interval)
   },
 
   reset: function (e) {
